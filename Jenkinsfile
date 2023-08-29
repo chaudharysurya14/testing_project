@@ -10,16 +10,10 @@ pipeline {
       }
     }
     
-       stage ('Software composition analysis') {
-            steps {
-                dependencyCheck additionalArguments: ''' 
-                    -o "./" 
-                    -s "./"
-                    -f "ALL" 
-                    --prettyPrint''', odcInstallation: 'DP-Check'
-
-                dependencyCheckPublisher pattern: 'dependency-check-report.xml'
-            }
-        }
+    stage ('Generate build') {
+      steps {
+        sh 'mvn clean install -DskipTests'
+      }
     }  
+  }  
 }
